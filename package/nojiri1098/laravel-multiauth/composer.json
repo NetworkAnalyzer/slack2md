@@ -1,0 +1,31 @@
+{
+    "name": "nojiri1098/laravel-multiauth",
+    "description": "Easy Multi-Auth implementation with Laravel",
+    "require": {
+        "laravel/framework": "~5.8.0|^6.0",
+        "php": ">=7.1.3",
+        "jeroennoten/laravel-adminlte": "^2.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Daiki",
+            "email": "nojiri1098@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Nojiri1098\\LaravelMultiAuth\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Nojiri1098\\LaravelMultiAuth\\ServiceProvider"
+            ]
+        }
+    }
+}
