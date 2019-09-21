@@ -7,11 +7,19 @@
         "laravel"
     ],
     "license": "MIT",
+    "repositories": [
+        {
+            "type": "path",
+            "url": "package/nojiri1098/laravel-multiauth",
+            "symlink": true
+        }
+    ],
     "require": {
         "php": "^7.2",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "^6.0",
-        "laravel/tinker": "^1.0"
+        "laravel/tinker": "^1.0",
+        "nojiri1098/laravel-multiauth": "dev-master"
     },
     "require-dev": {
         "facade/ignition": "^1.4",
