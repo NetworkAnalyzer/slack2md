@@ -12,6 +12,11 @@
             "type": "path",
             "url": "package/nojiri1098/laravel-multiauth",
             "symlink": true
+        },
+        {
+            "type": "path",
+            "url": "package/nojiri1098/laravel-adminlte-for-back",
+            "symlink": true
         }
     ],
     "require": {
@@ -19,7 +24,8 @@
         "fideloper/proxy": "^4.0",
         "laravel/framework": "^5.8",
         "laravel/tinker": "^1.0",
-        "nojiri1098/laravel-multiauth": "dev-master"
+        "nojiri1098/laravel-multiauth": "dev-master",
+        "nojiri1098/laravel-adminlte-for-back": "dev-master"
     },
     "require-dev": {
         "facade/ignition": "^1.4",
