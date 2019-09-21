@@ -43,7 +43,8 @@ class MakeMultiAuth extends Command
     {
         $files = [
             'Model.stub' => app_path('Admin.php'),
-            'Migration.stub' => database_path('migrations/' . Carbon::now()->format('Y_m_d_His') . '_create_admins_table.php')
+            'Migration.stub' => database_path('migrations/'.Carbon::now()->format('Y_m_d_His').'_create_admins_table.php'),
+            'auth.stub' => config_path('auth.php'),
         ];
 
         foreach ($files as $src => $dist) {
