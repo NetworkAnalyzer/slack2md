@@ -5,6 +5,7 @@ namespace Nojiri1098\LaravelMultiAuth\Console\Commands;
 use Illuminate\Console\Command;
 use Nojiri1098\LaravelMultiAuth\MultiAuth;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class MakeMultiAuth extends Command
 {
@@ -24,6 +25,8 @@ class MakeMultiAuth extends Command
 
     protected $prefix = 'admin';
 
+    protected $user_model_path;
+
     /**
      * Create a new command instance.
      *
@@ -32,6 +35,7 @@ class MakeMultiAuth extends Command
     public function __construct()
     {
         parent::__construct();
+        $this->user_model_path = app_path('User.php');
     }
 
     /**
@@ -40,6 +44,35 @@ class MakeMultiAuth extends Command
      * @return mixed
      */
     public function handle()
+    {
+        $this->exportFiles();
+        
+        $lines = explode("\n", file_get_contents($this->user_model_path));
+
+        foreach ($lines as $key => $line) {
+            if (Str::startsWith($line, 'class')) {
+                array_splice($lines, $key - 1, 0, "use App\Notifications\ResetPassword;");
+                break;
+            }
+        }
+
+        foreach ($lines as $key => $line) {
+            if (Str::startsWith($line, '}')) {
+                array_splice($lines, $key, 0,     "\n"                                                                );
+                array_splice($lines, $key + 1, 0, "    public function sendPasswordResetNotification(\$token)"        );
+                array_splice($lines, $key + 2, 0, "    {"                                                             );
+                array_splice($lines, $key + 3, 0, "        \$this->notify(new ResetPassword(\$token, \$this->email));");
+                array_splice($lines, $key + 4, 0, "    }"                                                             );
+                break;
+            }
+        }
+        
+        file_put_contents($this->user_model_path, implode("\n", $lines));
+
+        $this->info('Multi-Auth scaffolding generated successfully.');
+    }
+
+    protected function exportFiles()
     {
         $files = [
             'Model.stub' => app_path('Admin.php'),
