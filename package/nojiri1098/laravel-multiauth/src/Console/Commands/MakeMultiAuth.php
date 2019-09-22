@@ -67,7 +67,7 @@ class MakeMultiAuth extends Command
 
         foreach ($lines as $key => $line) {
             if (Str::startsWith($line, '}')) {
-                array_splice($lines, $key, 0,     "\n"                                                                );
+                array_splice($lines, $key,     0, ""                                                                  );
                 array_splice($lines, $key + 1, 0, "    public function sendPasswordResetNotification(\$token)"        );
                 array_splice($lines, $key + 2, 0, "    {"                                                             );
                 array_splice($lines, $key + 3, 0, "        \$this->notify(new ResetPassword(\$token, \$this->email));");
@@ -121,7 +121,7 @@ class MakeMultiAuth extends Command
             }
         }
         file_put_contents($this->redirectifauthenticated_middleware_path, implode("\n", $lines));
-        
+
         $this->info('Multi-Auth scaffolding generated successfully.');
     }
 
