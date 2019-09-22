@@ -1,16 +1,10 @@
 {
     "name": "nojiri1098/laravel-multiauth",
     "description": "Easy Multi-Auth implementation with Laravel",
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/nojiri1098/Laravel-AdminLTE-for-back"
-        }
-    ],
     "require": {
         "laravel/framework": "^5.8",
         "php": ">=7.1.3",
-        "nojiri1098/laravel-adminlte-for-back": "dev-master"
+        "nojiri1098/laravel-adminlte-for-back": "dev-for-back"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.0"
