@@ -27,6 +27,8 @@ class MakeMultiAuth extends Command
 
     protected $user_model_path;
 
+    protected $handler_exception_path;
+
     protected $redirectifauthenticated_middleware_path;
 
     /**
@@ -38,6 +40,7 @@ class MakeMultiAuth extends Command
     {
         parent::__construct();
         $this->user_model_path = app_path('User.php');
+        $this->handler_exception_path = app_path('Exceptions/Handler.php');
         $this->redirectifauthenticated_middleware_path = app_path('Http/Middleware/RedirectIfAuthenticated.php');
     }
 
@@ -74,6 +77,38 @@ class MakeMultiAuth extends Command
         }
         
         file_put_contents($this->user_model_path, implode("\n", $lines));
+
+        $lines = explode("\n", file_get_contents($this->handler_exception_path));
+
+        foreach ($lines as $key => $line) {
+            if (Str::startsWith($line, 'class')) {
+                array_splice($lines, $key - 1, 0, "use Illuminate\Http\Request;");
+                array_splice($lines, $key    , 0, "use Illuminate\Http\Response;");
+                array_splice($lines, $key + 1, 0, "use Illuminate\Auth\AuthenticationException;");
+                break;
+            }
+        }
+
+        foreach ($lines as $key => $line) {
+            if (Str::startsWith($line, '}')) {
+                array_splice($lines, $key,     0, ""                                                                                      );
+                array_splice($lines, $key + 1, 0, "    protected function unauthenticated(\$request, AuthenticationException \$exception)");
+                array_splice($lines, $key + 2, 0, "    {"                                                                                 );
+                array_splice($lines, $key + 3, 0, "        if(\$request->expectsJson()) {"                                                );
+                array_splice($lines, $key + 4, 0, "            return response()->json(['error' => 'Unauthenticated.'], 401);"            );
+                array_splice($lines, $key + 5, 0, "        }"                                                                             );
+                array_splice($lines, $key + 6, 0, ""                                                                                      );
+                array_splice($lines, $key + 7, 0, "        if(in_array('admin', \$exception->guards())){"                                 );
+                array_splice($lines, $key + 8, 0, "            return redirect()->guest('admin/login');"                                  );
+                array_splice($lines, $key + 9, 0, "        }"                                                                             );
+                array_splice($lines, $key +10, 0, ""                                                                                      );
+                array_splice($lines, $key +11, 0, "        return redirect()->guest(route('login'));"                                      );
+                array_splice($lines, $key +12, 0, "    }"                                                                                 );
+                break;
+            }
+        }
+
+        file_put_contents($this->handler_exception_path, implode("\n", $lines));
 
         $lines = explode("\n", file_get_contents($this->redirectifauthenticated_middleware_path));
         foreach ($lines as $key => $line) {
