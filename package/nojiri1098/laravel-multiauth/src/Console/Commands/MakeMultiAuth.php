@@ -27,6 +27,8 @@ class MakeMultiAuth extends Command
 
     protected $user_model_path;
 
+    protected $redirectifauthenticated_middleware_path;
+
     /**
      * Create a new command instance.
      *
@@ -36,6 +38,7 @@ class MakeMultiAuth extends Command
     {
         parent::__construct();
         $this->user_model_path = app_path('User.php');
+        $this->redirectifauthenticated_middleware_path = app_path('Http/Middleware/RedirectIfAuthenticated.php');
     }
 
     /**
@@ -72,6 +75,18 @@ class MakeMultiAuth extends Command
         
         file_put_contents($this->user_model_path, implode("\n", $lines));
 
+        $lines = explode("\n", file_get_contents($this->redirectifauthenticated_middleware_path));
+        foreach ($lines as $key => $line) {
+            if (Str::contains($line, "return redirect('/home')")) {
+                array_splice($lines, $key,     0, "            \$route = \$guard === 'admin' ? 'admin.home' : 'home';");
+                array_splice($lines, $key + 1, 0, ""                                                                  );
+                array_splice($lines, $key + 2, 0, "            return redirect()->route(\$route);"                    );
+                array_splice($lines, $key + 3, 1);
+                break; 
+            }
+        }
+        file_put_contents($this->redirectifauthenticated_middleware_path, implode("\n", $lines));
+        
         $this->info('Multi-Auth scaffolding generated successfully.');
     }
 
