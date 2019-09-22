@@ -45,6 +45,9 @@ class MakeMultiAuth extends Command
      */
     public function handle()
     {
+        $this->call('make:adminlte');
+        $this->call('vendor:publish', ['--provider' => 'JeroenNoten\LaravelAdminLte\ServiceProvider', '--tag' => 'assets']);
+        
         $this->exportFiles();
         
         $lines = explode("\n", file_get_contents($this->user_model_path));
