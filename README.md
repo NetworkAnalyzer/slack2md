@@ -7,7 +7,8 @@ To implement Multi-Auth, just execuse `make:mutliauth` Artisan command after `ma
 ## Requirements
 
 - Laravel 5.8.x to 6.0.x
-- PHP >= 7.2
+- PHP >= 7.1
+- Laravel-AdminLTE
 
 ## Installation
 
