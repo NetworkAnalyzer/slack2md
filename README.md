@@ -1,23 +1,50 @@
+# Easy Multi-Auth implementation with Laravel
 
-## Laravel 5.8
+This package provides an easy way to quickly implement Multi-Auth with Laravel 5 and 6.
 
-### Preparation
+To implement Multi-Auth, just execuse `make:mutliauth` Artisan command after `make:auth` Artisan command.
+
+## Requirements
+
+- Laravel 5.8.x to 6.0.x
+- PHP >= 7.2
+
+## Installation
+
+1. Require the package using composer:
+```
+composer require nojiri1098/laravel-multiauth
+```
+
+2. Add the service provider to the `providers` in `config/app.php`:
+```
+JeroenNoten\LaravelAdminLte\ServiceProvider::class,
+```
+
+## Usage
+
+### Preparetion
+
+#### Laravel 5.8
 
 ```
 php artisan make:auth
 php artisan migrate
 ```
 
-### Make Multi-Auth
+#### Laravel 6.0
 
 ```
-composer require nojiri1098/laravel-multiauth
-php artisan make:multiauth
-- generate Admin.php
-- generate create_admins_table.php
-- configure guard in app.php
-- call(php artisan make:adminlte)
-- call(php artisan vendor:publish --provider="JeroenNoten\LaravelAdminLte\ServiceProvider" --tag=assets)
+composer require laravel/ui
+php artisan ui vue --auth
+php artisan migrate
+npm install
+npm run dev
+```
 
+### Implement Multi-Auth
+
+```
+php artisan make:multiauth
 php artisan migrate
 ```
