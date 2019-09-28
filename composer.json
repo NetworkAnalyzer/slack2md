@@ -21,6 +21,11 @@
             "Nojiri1098\\LaravelMultiAuth\\": "src/"
         }
     },
+    "autoload-dev": {
+	"psr-4": {
+	    "Test\\": "tests/"
+	}
+    },
     "extra": {
         "laravel": {
             "providers": [
